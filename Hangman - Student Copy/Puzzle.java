@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Puzzle{
-    private String word = "eye" ;
+    private String word = "" ;
     private boolean unsolved= true;
     private String o= "";
     private String w= " ";
@@ -12,8 +12,30 @@ public class Puzzle{
 
     Puzzle(){
 
+        ArrayList<String> words = new ArrayList<String>();
+
+        try {
+            File file = new File("words.txt");
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNext()) {
+                String tempWord = scanner.next().toLowerCase();
+                words.add(tempWord);
+            }
+            scanner.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        int iw = (int)(Math.random()*words.size());
+        System.out.println(iw);
+        word += words.get(iw);
+        
+        
         for ( int i =0; i<word.length(); i++){
             o=o+" _";
+
         }
     }
 
@@ -27,12 +49,9 @@ public class Puzzle{
     }
 
     public void show(){
-        System.out.println(o);
+        System.out.println("Puzzle: " + o);
         System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println(" Incorrect Choices:");
-        System.out.println(w);
+        System.out.println("Guesses: " + w);
     }
 
     public String getWord(){
@@ -48,9 +67,7 @@ public class Puzzle{
                 ca++;
             }
         }
-        if(!word.contains(g)){
-            w = w + g + " ";
-        }
+        w = w + g + ", ";
         return word.contains(g);
     }
 
